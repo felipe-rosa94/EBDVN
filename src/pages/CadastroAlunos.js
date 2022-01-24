@@ -14,13 +14,18 @@ import {
     Toolbar,
     Typography,
     FormControlLabel,
-    Radio, RadioGroup, FormControl
+    Radio,
+    RadioGroup,
+    FormControl,
+    DialogTitle,
+    DialogActions
 } from '@mui/material'
-import {ArrowBack, Print} from '@mui/icons-material'
-import '../styles/cadastro.css'
+import {ArrowBack, Delete, Print} from '@mui/icons-material'
+import '../styles/cadastro_alunos.css'
 import firebase from '../firebase'
+import {isEmptyObject, mascaraTelefone} from '../Util'
 
-class Cadastro extends React.Component {
+class CadastroAlunos extends React.Component {
 
     state = {
         editando: false,
@@ -47,35 +52,17 @@ class Cadastro extends React.Component {
         parentesco: '',
         imprimir: false,
         dialogCarregando: false,
-        mensagemCarregando: ''
+        mensagemCarregando: '',
+        dialogDeleteAluno: false
     }
 
     handledFile = e => this.setState({[e.target.name]: e.target.files[0]})
 
     handledInput = e => {
-        if (e.target.name === 'nascimento')
-            this.setState({[e.target.name]: this.mascaraData(e.target.value)})
-        else if (e.target.name.includes('telefone') || e.target.name.includes('whatsapp'))
-            this.setState({[e.target.name]: this.mascaraTelefone(e.target.value)})
+        if (e.target.name.includes('telefone') || e.target.name.includes('whatsapp'))
+            this.setState({[e.target.name]: mascaraTelefone(e.target.value)})
         else
             this.setState({[e.target.name]: e.target.value.toUpperCase()})
-    }
-
-    mascaraData = data => {
-        data = data.substring(0, 10)
-        data = data.replace(/\D/g, '').slice(0, 10)
-        if (data.length >= 5)
-            return `${data.slice(0, 2)}/${data.slice(2, 4)}/${data.slice(4)}`
-        else if (data.length >= 3)
-            return `${data.slice(0, 2)}/${data.slice(2)}`
-        return data
-    }
-
-    mascaraTelefone = telefone => {
-        if (telefone !== '') {
-            telefone = telefone.substring(0, 14)
-            return telefone.replace(/\D/g, '').replace(/(\d{2})(\d)/, '($1) $2')
-        }
     }
 
     onRadioWhatsapp = (e, opcao) => this.setState({[e.target.name]: opcao})
@@ -116,6 +103,22 @@ class Cadastro extends React.Component {
         this.props.history.replace('/home')
     }
 
+    onClickDelete = () => {
+        let aluno = this.state
+        firebase
+            .database()
+            .ref('alunos')
+            .child(aluno.id)
+            .remove()
+            .then(d => {
+                console.log(d)
+            })
+            .catch(e => {
+                console.log(e)
+            })
+        this.props.history.replace('/home')
+    }
+
     onClickImprimir = () => {
         this.setState({imprimir: true})
         setTimeout(() => {
@@ -144,14 +147,10 @@ class Cadastro extends React.Component {
     aluno = () => {
         let aluno = this.props.location.state
         if (aluno === undefined) return
-        if (!this.isEmptyObject(aluno)) {
+        if (!isEmptyObject(aluno)) {
             aluno.editando = true
             this.setState(aluno)
         }
-    }
-
-    isEmptyObject = objeto => {
-        return (Object.keys(objeto).length === 0)
     }
 
     componentDidMount() {
@@ -186,7 +185,8 @@ class Cadastro extends React.Component {
             observacoes,
             dialogCarregando,
             mensagemCarregando,
-            imprimir
+            imprimir,
+            dialogDeleteAluno
         } = this.state
         return (
             <div id="cadastro">
@@ -200,7 +200,7 @@ class Cadastro extends React.Component {
                                     <ArrowBack/>
                                 </IconButton>
                                 <Typography variant="h6" color="inherit" component="div">
-                                    Cadastro
+                                    Cadastro Alunos
                                 </Typography>
                             </div>
                             <div className="div-toolbar-cadastro">
@@ -208,6 +208,13 @@ class Cadastro extends React.Component {
                                             onClick={this.onClickImprimir}>
                                     <Print/>
                                 </IconButton>
+                                {
+                                    (editando) &&
+                                    <IconButton edge="start" color="inherit" aria-label="menu" sx={{mr: 2}}
+                                                onClick={() => this.setState({dialogDeleteAluno: true})}>
+                                        <Delete/>
+                                    </IconButton>
+                                }
                             </div>
                         </Toolbar>
                     </AppBar>
@@ -248,7 +255,8 @@ class Cadastro extends React.Component {
                                            onChange={this.handledInput}/>
                             </div>
                             <Box p={1}/>
-                            <TextField value={nascimento} fullWidth={true} variant="outlined" name="nascimento"
+                            <TextField type="date" value={nascimento} fullWidth={true} variant="outlined"
+                                       name="nascimento"
                                        label="Data nascimento"
                                        placeholder="Data nascimento"
                                        onChange={this.handledInput}/>
@@ -430,6 +438,18 @@ class Cadastro extends React.Component {
                         }
                     </div>
                 </div>
+                <Dialog open={dialogDeleteAluno} onClose={() => this.setState({dialogDeleteAluno: false})}>
+                    <DialogTitle>Deletar</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>Deseja deletar esse aluno?</DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant="outlined"
+                                onClick={() => this.setState({dialogDeleteAluno: false})}>Não</Button>
+                        <Button variant="outlined"
+                                onClick={this.onClickDelete}>Sim</Button>
+                    </DialogActions>
+                </Dialog>
                 <Dialog open={dialogCarregando}>
                     <DialogContent>
                         <CircularProgress size={30}/>
@@ -441,4 +461,4 @@ class Cadastro extends React.Component {
     }
 }
 
-export default Cadastro
+export default CadastroAlunos

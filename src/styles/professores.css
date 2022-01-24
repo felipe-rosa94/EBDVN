@@ -1,0 +1,29 @@
+#div-container-lista {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#div-professor-lista {
+    width: 50%;
+    margin: 20px;
+}
+
+#card-professor {
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#card-content-professor {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 15px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 992px) {
+    #div-professor-lista {
+        width: 95%;
+    }
+}

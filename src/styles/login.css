@@ -1,0 +1,29 @@
+#login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#card-login {
+    margin-top: 10px;
+    width: 250px;
+}
+
+#label-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4px;
+}
+
+#card-content-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#logo-login {
+    width: 200px;
+    height: 200px;
+}

@@ -13,9 +13,11 @@ import {
     Typography
 } from '@mui/material'
 import {ArrowBack, Search} from '@mui/icons-material'
-import '../styles/lista.css'
+import '../styles/alunos.css'
+import {calculaIdade} from '../Util'
+import moment from "moment";
 
-class Lista extends React.Component {
+class Alunos extends React.Component {
 
     state = {
         alunos: [],
@@ -23,7 +25,7 @@ class Lista extends React.Component {
         busca: false
     }
 
-    onClickAluno = aluno => this.props.history.push({pathname: '/cadastro', state: aluno})
+    onClickAluno = aluno => this.props.history.push({pathname: '/cadastro_alunos', state: aluno})
 
     handledInput = e => {
         const {alunos} = this.state
@@ -63,13 +65,6 @@ class Lista extends React.Component {
             this.props.history.replace('/login')
     }
 
-    calculaIdade = (nascimento) => {
-        nascimento = nascimento.split('/')
-        nascimento = new Date(nascimento[1] + '-' + nascimento[0] + '-' + nascimento[2])
-        let hoje = new Date()
-        return Math.floor(Math.ceil(Math.abs(nascimento.getTime() - hoje.getTime()) / (1000 * 3600 * 24)) / 365.25);
-    }
-
     componentDidMount() {
         this.verificaLogin()
         this.buscaAlunos()
@@ -82,12 +77,16 @@ class Lista extends React.Component {
                 <AppBar position="static">
                     <Toolbar id="toolbar-lista" variant="dense">
                         <div className="div-toolbar-lista">
-                            <IconButton edge="start" color="inherit" aria-label="menu" sx={{mr: 2}}>
-                                <ArrowBack onClick={() => this.props.history.goBack()}/>
+                            <IconButton edge="start" color="inherit" aria-label="menu" sx={{mr: 2}}
+                                        onClick={() => this.props.history.goBack()}>
+                                <ArrowBack/>
                             </IconButton>
-                            <Typography variant="h6" color="inherit" component="div">
-                                Alunos
-                            </Typography>
+                            {
+                                !busca &&
+                                <Typography variant="h6" color="inherit" component="div">
+                                    Alunos
+                                </Typography>
+                            }
                         </div>
                         <div className="div-toolbar-lista">
                             {
@@ -106,28 +105,30 @@ class Lista extends React.Component {
                     <div id="div-aluno-lista">
                         {
                             filtros.map((f, index) => (
-                                <div key={index}>
-                                    <Card id="card-aluno" onClick={() => this.onClickAluno(f)}>
-                                        <CardContent id="card-content-aluno">
-                                            <div id="div-descricao-aluno">
-                                                <div id="div-aluno">
-                                                    <FormLabel id="label-aluno">{`Aluno: ${f.aluno}`}</FormLabel>
-                                                    <Box p={1}/>
-                                                    <FormLabel
-                                                        id="label-aluno">{`Idade: ${this.calculaIdade(f.nascimento)}`}</FormLabel>
-                                                </div>
-                                                <FormLabel id="label-aluno">{`Nasc: ${f.nascimento}`}</FormLabel>
-                                                <FormLabel id="label-aluno">{`Mãe: ${f.mae}`}</FormLabel>
-                                                <FormLabel id="label-aluno">{`Pai: ${f.pai}`}</FormLabel>
+                                <Card key={index} id="card-aluno" onClick={() => this.onClickAluno(f)}>
+                                    <CardContent id="card-content-aluno">
+                                        <div id="div-descricao-aluno">
+                                            <div id="div-aluno">
+                                                <FormLabel id="label-aluno">{`Aluno: ${f.aluno}`}</FormLabel>
+                                                <Box p={1}/>
                                                 <FormLabel
-                                                    id="label-aluno">{`Responsável: ${f.responsavel}`}</FormLabel>
+                                                    id="label-aluno">{`Idade: ${calculaIdade(f.nascimento)}`}</FormLabel>
                                             </div>
-                                            <div>
+                                            <FormLabel
+                                                id="label-aluno">{`Nasc: ${moment(f.nascimento).format('DD/MM/YYYY')}`}</FormLabel>
+                                            <FormLabel id="label-aluno">{`Mãe: ${f.mae}`}</FormLabel>
+                                            <FormLabel id="label-aluno">{`Pai: ${f.pai}`}</FormLabel>
+                                            <FormLabel
+                                                id="label-aluno">{`Responsável: ${f.responsavel}`}</FormLabel>
+                                        </div>
+                                        <div>
+                                            {
+                                                (f.imagem) &&
                                                 <CardMedia id="card-media-lista-aluno" image={f.imagem}/>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
+                                            }
+                                        </div>
+                                    </CardContent>
+                                </Card>
                             ))
                         }
                     </div>
@@ -137,4 +138,4 @@ class Lista extends React.Component {
     }
 }
 
-export default Lista
+export default Alunos

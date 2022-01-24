@@ -1,0 +1,202 @@
+#home {
+    display: flex;
+    flex-direction: column;
+}
+
+#div-container-home {
+    display: flex;
+    flex-direction: row;
+    height: 90vh;
+}
+
+#div-menu {
+    display: flex;
+    align-items: flex-start;
+    height: 48px;
+    background-color: #1976d2;
+}
+
+#card-home {
+    cursor: pointer;
+}
+
+#card-drawer {
+    margin: 10px;
+}
+
+#card-content-home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+
+#icon-home {
+    cursor: pointer;
+}
+
+#label-home {
+    text-align: center;
+    cursor: pointer;
+}
+
+#div-drawer {
+    width: 120px;
+}
+
+#div-home {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#card-aniversariante {
+    width: 250px;
+    margin: 4px;
+}
+
+#div-container-agenda {
+    margin: 20px;
+}
+
+#div-container-aniversariantes {
+    margin: 20px;
+}
+
+#div-aniversariantes {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.fab-container {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 999;
+    cursor: pointer;
+}
+
+.fab-icon-holder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background: #1976d2;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.fab-icon-holder:hover {
+    opacity: 0.8;
+}
+
+.fab-icon-holder i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 25px;
+    color: #ffffff;
+}
+
+.fab {
+    width: 60px;
+    height: 60px;
+    background: #1976d2;
+}
+
+.fab-options {
+    list-style-type: none;
+    margin: 0;
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    transform: scale(0);
+    transform-origin: 85% bottom;
+}
+
+.fab:hover + .fab-options,
+.fab-options:hover {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.fab-options li {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px;
+}
+
+#fab-label {
+    padding: 2px 5px;
+    align-self: center;
+    user-select: none;
+    white-space: nowrap;
+    border-radius: 3px;
+    font-size: 16px;
+    background: #666666;
+    color: #ffffff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    margin-right: 10px;
+}
+
+#icone-fab {
+    color: white;
+}
+
+#div-agenda {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#card-agenda {
+    width: 250px;
+    margin: 4px;
+}
+
+#card-content-agenda {
+    display: flex;
+    flex-direction: column;
+}
+
+#label-agenda {
+    color: white;
+}
+
+#card-professor {
+    margin: 4px;
+}
+
+#card-content-professor {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#div-professores {
+    display: flex;
+    flex-direction: column;
+}
+
+#icone-professores {
+    margin: 8px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 992px) {
+    #card-aniversariante {
+        width: 100%;
+        margin-top: 4px;
+    }
+
+    #card-agenda {
+        width: 100%;
+        margin-top: 4px;
+    }
+}
+
