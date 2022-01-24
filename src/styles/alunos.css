@@ -1,0 +1,67 @@
+#toolbar-lista {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.div-toolbar-lista {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+#div-container-lista {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#div-aluno-lista {
+    width: 50%;
+    margin: 20px;
+}
+
+#card-aluno {
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#card-content-toolbar-search {
+    padding: 5px;
+}
+
+#card-content-aluno {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    cursor: pointer;
+}
+
+#label-aluno {
+    cursor: pointer;
+}
+
+#card-media-lista-aluno {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+}
+
+#div-descricao-aluno {
+    display: flex;
+    flex-direction: column;
+}
+
+#div-aluno {
+    display: flex;
+    align-items: center;
+}
+
+@media screen and (max-width: 992px) {
+    #div-aluno-lista {
+        width: 90%;
+    }
+}
