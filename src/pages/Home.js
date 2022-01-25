@@ -252,7 +252,7 @@ class Home extends React.Component {
                 <AppBar position="static">
                     <Toolbar id="toolbar-dashbord" variant="dense">
                         <Typography variant="h6" color="inherit" component="div">
-                            Home
+                            EBD VIDA NOVA
                         </Typography>
                     </Toolbar>
                 </AppBar>

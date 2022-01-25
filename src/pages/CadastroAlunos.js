@@ -50,6 +50,7 @@ class CadastroAlunos extends React.Component {
         medicamentos: '',
         responsavel: '',
         parentesco: '',
+        email: '',
         imprimir: false,
         dialogCarregando: false,
         mensagemCarregando: '',
@@ -70,9 +71,14 @@ class CadastroAlunos extends React.Component {
     onClickCadastro = async () => {
         let aluno = this.state
         if (aluno.editando) {
-            delete aluno['editando']
             if (aluno.foto !== '')
                 aluno.imagem = await this.uploadImagem(aluno.aluno, aluno.foto)
+            delete aluno['editando']
+            delete aluno['mensagemCarregando']
+            delete aluno['imprimir']
+            delete aluno['dialogDeleteAluno']
+            delete aluno['dialogCarregando']
+            delete aluno['foto']
             firebase
                 .database()
                 .ref('alunos')
@@ -85,9 +91,14 @@ class CadastroAlunos extends React.Component {
                     console.log(e)
                 })
         } else {
-            delete aluno['editando']
             aluno.imagem = await this.uploadImagem(aluno.aluno, aluno.foto)
             aluno.id = new Date().getTime()
+            delete aluno['editando']
+            delete aluno['mensagemCarregando']
+            delete aluno['imprimir']
+            delete aluno['dialogDeleteAluno']
+            delete aluno['dialogCarregando']
+            delete aluno['foto']
             firebase
                 .database()
                 .ref('alunos')
@@ -167,6 +178,7 @@ class CadastroAlunos extends React.Component {
             pai,
             responsavel,
             parentesco,
+            email,
             nascimento,
             rua,
             numero,
@@ -254,6 +266,11 @@ class CadastroAlunos extends React.Component {
                                            placeholder="Grau de parentesco"
                                            onChange={this.handledInput}/>
                             </div>
+                            <Box p={1}/>
+                            <TextField value={email} fullWidth={true} variant="outlined" name="email"
+                                       label="E-mail Responsável"
+                                       placeholder="E-mail Responsável"
+                                       onChange={this.handledInput}/>
                             <Box p={1}/>
                             <TextField type="date" value={nascimento} fullWidth={true} variant="outlined"
                                        name="nascimento"

@@ -12,10 +12,11 @@ import {
     Toolbar,
     Typography
 } from '@mui/material'
-import {ArrowBack, Search} from '@mui/icons-material'
+import {ArrowBack, Download, Search} from '@mui/icons-material'
 import '../styles/alunos.css'
 import {calculaIdade} from '../Util'
-import moment from "moment";
+import moment from 'moment'
+import exportFromJSON from 'export-from-json'
 
 class Alunos extends React.Component {
 
@@ -26,6 +27,31 @@ class Alunos extends React.Component {
     }
 
     onClickAluno = aluno => this.props.history.push({pathname: '/cadastro_alunos', state: aluno})
+
+    onClickDownload = () => {
+        try {
+            const {alunos} = this.state
+            alunos.forEach(a => {
+                delete a['id']
+                delete a['mensagemCarregando']
+                delete a['imprimir']
+                delete a['dialogDeleteAluno']
+                delete a['dialogCarregando']
+                delete a['foto']
+                delete a['dia']
+                delete a['imagem']
+                a.whatsapp_responsavel_1 = a.whatsapp_responsavel_1 ? 'Sim' : 'Não'
+                a.whatsapp_responsavel_2 = a.whatsapp_responsavel_2 ? 'Sim' : 'Não'
+                a.whatsapp_responsavel_3 = a.whatsapp_responsavel_3 ? 'Sim' : 'Não'
+            })
+            const data = alunos
+            const fileName = 'alunos_escolinha'
+            const exportType = exportFromJSON.types.xls
+            exportFromJSON({data, fileName, exportType})
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
     handledInput = e => {
         const {alunos} = this.state
@@ -97,7 +123,12 @@ class Alunos extends React.Component {
                                     </CardContent>
                                 </Card>
                             }
-                            <Search onClick={() => this.setState({filtros: alunos, busca: !busca})}/>
+                            <IconButton color="inherit" onClick={() => this.setState({filtros: alunos, busca: !busca})}>
+                                <Search/>
+                            </IconButton>
+                            <IconButton color="inherit" onClick={this.onClickDownload}>
+                                <Download/>
+                            </IconButton>
                         </div>
                     </Toolbar>
                 </AppBar>
@@ -119,7 +150,7 @@ class Alunos extends React.Component {
                                             <FormLabel id="label-aluno">{`Mãe: ${f.mae}`}</FormLabel>
                                             <FormLabel id="label-aluno">{`Pai: ${f.pai}`}</FormLabel>
                                             <FormLabel
-                                                id="label-aluno">{`Responsável: ${f.responsavel}`}</FormLabel>
+                                                id="label-aluno">{`Parentesco: ${f.parentesco}`}</FormLabel>
                                         </div>
                                         <div>
                                             {
