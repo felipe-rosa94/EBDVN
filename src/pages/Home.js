@@ -27,6 +27,7 @@ import '../styles/home.css'
 import firebase from '../firebase'
 import moment from 'moment'
 import {calculaIdade, enviaEmail, mesAtual} from '../Util'
+import exportFromJSON from "export-from-json";
 
 class Home extends React.Component {
 
